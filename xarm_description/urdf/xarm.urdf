@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<robot name="xArm">
+<robot name="xarm">
   <material name="DarkGrey">
     <color rgba="0.3 0.3 0.3 1.0"/>
   </material>
@@ -29,44 +29,23 @@
   </material>
   <property name="M_PI" value="3.1415926535897931" />
 
-  <!--link name="base">
+  <link name="xarm_base_link">
     <visual>
-      <origin rpy="0 0 0" xyz="0 0 0"/>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
       <geometry>
-        <box size="1 1 0.04"/>
+        <mesh filename="package://xarm_description/meshes/stls/base.stl" scale="1.0 1.0 1.0" />
       </geometry>
-      <material name="DarkGrey"/>
+      <material name="Blue"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0 0 0"/>
       <geometry>
-        <box size="1 1 0.04"/>
-      </geometry>
-    </collision>
-  </link-->
-
-  <link name="xArm_6_link">
-    <!--inertial>
-      <mass value="2.0"/>
-      <origin xyz="0 0 0"/>
-      <inertia ixx="0.00381666666667" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.00381666666667"/>
-    </inertial-->
-    <visual>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://xArm_description/meshes/stls/link6.stl" scale="1.0 1.0 1.0" />
-      </geometry>
-      <material name="DarkGrey"/>
-    </visual>
-    <collision>
-      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
-      <geometry>
-        <mesh filename="package://xArm_description/meshes/stls/link6.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="package://xarm_description/meshes/stls/base.stl" scale="1.0 1.0 1.0" />
       </geometry>
     </collision>
   </link>
 
-  <link name="xArm_5_link">
+  <link name="xarm_6_link">
     <!--inertial>
       <mass value="2.0"/>
       <origin xyz="0 0 0"/>
@@ -75,30 +54,154 @@
     <visual>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="package://xArm_description/meshes/stls/link5.stl" scale="1.0 1.0 1.0" />
+        <mesh filename="package://xarm_description/meshes/stls/link6.stl" scale="1.0 1.0 1.0" />
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link6.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="xarm_5_link">
+    <!--inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00381666666667" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.00381666666667"/>
+    </inertial-->
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link5.stl" scale="1.0 1.0 1.0" />
       </geometry>
       <material name="Blue"/>
     </visual>
     <collision>
       <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
       <geometry>
-        <mesh filename="package://xArm_description/meshes/stls/link5.stl" scale="1.0 1.0 1.0"/>
+        <mesh filename="package://xarm_description/meshes/stls/link5.stl" scale="1.0 1.0 1.0"/>
       </geometry>
     </collision>
   </link>
 
-  <joint name="xArm_6_joint" type="revolute">
+  <link name="xarm_4_link">
+    <!--inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00381666666667" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.00381666666667"/>
+    </inertial-->
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link4.stl" scale="1.0 1.0 1.0" />
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link4.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="xarm_3_link">
+    <!--inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00381666666667" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.00381666666667"/>
+    </inertial-->
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link3.stl" scale="1.0 1.0 1.0" />
+      </geometry>
+      <material name="Blue"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link3.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  <link name="xarm_2_link">
+    <!--inertial>
+      <mass value="2.0"/>
+      <origin xyz="0 0 0"/>
+      <inertia ixx="0.00381666666667" ixy="0" ixz="0" iyy="0.0036" iyz="0" izz="0.00381666666667"/>
+    </inertial-->
+    <visual>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link2.stl" scale="1.0 1.0 1.0" />
+      </geometry>
+      <material name="DarkGrey"/>
+    </visual>
+    <collision>
+      <origin rpy="0 0 0" xyz="0.0 0.0 0.0"/>
+      <geometry>
+        <mesh filename="package://xarm_description/meshes/stls/link2.stl" scale="1.0 1.0 1.0"/>
+      </geometry>
+    </collision>
+  </link>
+
+  
+  <joint name="xarm_6_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0 0.03603"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="1000" lower="-1.5" upper="1.5" velocity="0.5"/>
+    <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
+    <dynamics damping="1.0"/-->
+    <parent link="xarm_base_link"/>
+    <child link="xarm_6_link"/>
+  </joint>
+
+  <joint name="xarm_5_joint" type="revolute">
     <origin rpy="0 0 0" xyz="0 -0.0022 0.03195"/>
     <axis xyz="1 0 0"/>
     <limit effort="1000" lower="-1.5" upper="1.5" velocity="0.5"/>
     <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
     <dynamics damping="1.0"/-->
-    <parent link="xArm_6_link"/>
-    <child link="xArm_5_link"/>
+    <parent link="xarm_6_link"/>
+    <child link="xarm_5_link"/>
   </joint>
 
+ <joint name="xarm_4_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0 0.09765"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="1000" lower="-1.5" upper="1.5" velocity="0.5"/>
+    <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
+    <dynamics damping="1.0"/-->
+    <parent link="xarm_5_link"/>
+    <child link="xarm_4_link"/>
+ </joint>
 
-  <!--link name="xArm_6_link">
+ <joint name="xarm_3_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 0.0 0.09825"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="1000" lower="-1.5" upper="1.5" velocity="0.5"/>
+    <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
+    <dynamics damping="1.0"/-->
+    <parent link="xarm_4_link"/>
+    <child link="xarm_3_link"/>
+ </joint>
+
+ <joint name="xarm_2_joint" type="revolute">
+    <origin rpy="0 0 0" xyz="0 -0.001205 0.05306"/>
+    <axis xyz="1 0 0"/>
+    <limit effort="1000" lower="-1.5" upper="1.5" velocity="0.5"/>
+    <!--safety_controller k_position="30" k_velocity="30" soft_lower_limit="-2.93215314335" soft_upper_limit="2.93215314335"/>
+    <dynamics damping="1.0"/-->
+    <parent link="xarm_3_link"/>
+    <child link="xarm_2_link"/>
+ </joint>
+
+  <!--link name="xarm_6_link">
 
     <inertial>
       <mass value="2.0"/>
