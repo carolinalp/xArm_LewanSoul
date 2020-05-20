@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(xarm_hardware_interface)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
-# add_compile_options(-std=c++11)
+add_compile_options(-std=c++11)
 
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
@@ -166,7 +166,7 @@ target_link_libraries(xarm ${catkin_LIBRARIES})
 add_library(xarm_hardware_interface src/xarm_hardware_interface.cpp)
 add_dependencies(xarm_hardware_interface xarm)
 target_link_libraries(xarm_hardware_interface
-	${xarm_LIBRARIES}
+	xarm
 	${catkin_LIBRARIES})
 
 add_executable(xarm_hardware_interface_node src/xarm_hardware_interface_node.cpp)
