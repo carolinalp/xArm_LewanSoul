@@ -1,6 +1,6 @@
 #include <xarm_hardware_interface/xarm_hardware_interface.h>
 int main(int argc, char** argv)
-{
+/*{
     ros::init(argc, argv, "xarm_hardware_interface");
 
     ros::NodeHandle nh;
@@ -11,4 +11,17 @@ int main(int argc, char** argv)
 
     ros::spin();
     return 0;
+}*/
+
+{
+    xarm::xarm xarmrobot;
+    
+    double position ;
+    std::string jointName="xarm_5_joint";
+    position = xarmrobot.readJointPosition(jointName);
+
+    printf("%f\n", position);
+    
+
 }
+

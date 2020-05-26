@@ -121,7 +121,7 @@ catkin_package(
     pluginlib
     transmission_interface
     joint_limits_interface
-
+    
 )
 
 ###########
@@ -164,9 +164,10 @@ add_library(xarm
 target_link_libraries(xarm ${catkin_LIBRARIES})
 
 add_library(xarm_hardware_interface src/xarm_hardware_interface.cpp)
-add_dependencies(xarm_hardware_interface xarm)
+add_dependencies(xarm_hardware_interface xarm )
 target_link_libraries(xarm_hardware_interface
 	xarm
+  hidapi-hidraw
 	${catkin_LIBRARIES})
 
 add_executable(xarm_hardware_interface_node src/xarm_hardware_interface_node.cpp)
