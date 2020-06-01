@@ -3,7 +3,7 @@
 #include <xarm_hardware_interface/xarm.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <hidapi/hidapi.h>
+
 #define MAX_STR 255
 #include <string>
 using std::string;
@@ -52,12 +52,8 @@ namespace xarm
 		armLeft.joints[6].setServoLimits(0, 180);
 		armLeft.joints[7].setServoLimits(20, 120);*/
 	
-		unsigned char buf[65];
-		wchar_t wstr[MAX_STR];
-		hid_device *handle;
-		int i;
-		int res;
-		
+		//	wchar_t wstr[MAX_STR];
+			
 		struct hid_device_info *devs, *cur_dev;
 		
 		// Initialize the hidapi library
@@ -96,38 +92,109 @@ namespace xarm
 		
 		
 		// Read the Manufacturer String
-		res = hid_get_manufacturer_string(handle, wstr, MAX_STR);
-		printf("Manufacturer String: %ls\n", wstr);
-		
-		/*// Read the Product String
-		res = hid_get_product_string(handle, wstr, MAX_STR);
-		wprintf(L"Product String: %s\n", wstr);
-
-		// Read the Serial Number String
-		res = hid_get_serial_number_string(handle, wstr, MAX_STR);
-		wprintf(L"Serial Number String: (%d) %s\n", wstr[0], wstr);
-
-		// Read Indexed String 1
-		res = hid_get_indexed_string(handle, 1, wstr, MAX_STR);
-		wprintf(L"Indexed String 1: %s\n", wstr);*/
-		
+	//	res = hid_get_manufacturer_string(handle, wstr, MAX_STR);
+	//	printf("Manufacturer String: %ls\n", wstr);	
 	}
 
 	xarm::~xarm()
 	{
+		hid_close(handle);
 
+		/* Free static HIDAPI objects. */
+		hid_exit();
+		
 	}
-	double xarm::readJointPosition(std::string jointName)
+
+	std::vector<double> xarm::readJointsPosition()
 	{
-		double position=0.0;
-		return position;
+		int res;
+		std::vector<double> joint_positions;
+		unsigned char buf[65];
+
+		joint_positions.resize(6);
+		buf[0] = 0x55;
+		buf[1] = 0x55;
+		buf[2] = 9;
+		buf[3] = 21;
+		buf[4] = 6;
+		buf[5] = 1;
+		buf[6] = 2;
+		buf[7] = 3;
+		buf[8] = 4;
+		buf[9] = 5;
+		buf[10] = 6;
+		res = hid_write(handle, buf, 17);
+		
+		if (res < 0) {
+			printf("Unable to write()\n");
+			printf("Error: %ls\n", hid_error(handle));
+		}
+		
+		res = 0;
+		while (res == 0) {
+			res = hid_read(handle, buf, sizeof(buf));
+			if (res == 0)
+				printf("waiting...\n");
+			if (res < 0)
+				printf("Unable to read()\n");
+			
+			usleep(500*1000);
+			
+		}
+
+		printf("Data read:\n   ");
+		// Print out the returned buffer.
+		for (int i = 0; i < res; i++)
+			printf("%02hhx ", buf[i]);
+		printf("\n");
+
+		int id, p_lsb, p_msb, pos;
+		for (int i=0; i< 6; i++){
+			id = buf[5+3*i];
+			p_lsb= buf[5+3*i+1];
+			p_msb= buf[5+3*i+2];
+			joint_positions[i] = (p_msb << 8) + p_lsb;
+			printf("servo %d in joint_position %f \n", id, joint_positions[i]);
+		}
+
+		return joint_positions;
 	}
 	
-	void  xarm::setJointPosition(std::string jointName, double position)
+	void  xarm::setJointPosition(int joint_id, int position)
 	{
+		/*
+        CMD_SERVO_MOVE
+        0x55 0x55 len 0x03 [time_lsb time_msb, id, pos_lsb pos_msb]
+        Servo position is in range [0, 1000]
+        */
+	    int time=0;
+		unsigned char buf[65];
+		unsigned char t_lsb,t_msb, p_lsb, p_msb;
+		int res;
+		
+        t_lsb= time & 0xFF;
+		t_msb = time >> 8;
+		p_lsb = position & 0xFF;
+		p_msb = position >> 8;
+
+		buf[0] = 0x55;
+		buf[1] = 0x55;
+		buf[2] = 8;
+		buf[3] = 0x03;
+		buf[4] = 1;
+		buf[5] = t_lsb;
+		buf[6] = t_msb;
+		buf[7] = joint_id+1;
+		buf[8] = p_lsb;
+		buf[9] = p_msb;
+		
+		res = hid_write(handle, buf, 17);
+		
+		if (res < 0) {
+			printf("Unable to write()\n");
+			printf("Error: %ls\n", hid_error(handle));
+		}
 
 	} 
-
-
 	
 }

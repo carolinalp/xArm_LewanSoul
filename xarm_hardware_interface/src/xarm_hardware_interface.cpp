@@ -74,15 +74,13 @@ namespace xarm_hardware_interface
     }
 
     void xarmHardwareInterface::read() {
-        for (int i = 0; i < num_joints_; i++) {
-            joint_position_[i] = xarm.readJointPosition(joint_names_[i]);
-        }
+        joint_position_ = xarm.readJointsPosition();    
     }
 
     void xarmHardwareInterface::write(ros::Duration elapsed_time) {
         positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
         for (int i = 0; i < num_joints_; i++) {
-            xarm.setJointPosition(joint_names_[i], joint_position_command_[i]);
+            xarm.setJointPosition(i, joint_position_command_[i]);
         }
     }
 }

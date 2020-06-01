@@ -16,12 +16,9 @@ int main(int argc, char** argv)
 {
     xarm::xarm xarmrobot;
     
-    double position ;
-    std::string jointName="xarm_5_joint";
-    position = xarmrobot.readJointPosition(jointName);
-
-    printf("%f\n", position);
-    
+    std::vector<double> joint_positions;
+    joint_positions = xarmrobot.readJointsPosition();
+    xarmrobot.setJointPosition(2, 400); 
 
 }
 

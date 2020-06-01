@@ -1,7 +1,7 @@
 
 #ifndef XARM__H
 #define XARM__H
-
+#include <hidapi/hidapi.h>
 #include <sstream>
 
 namespace xarm
@@ -11,9 +11,9 @@ namespace xarm
 		public:
 			xarm();
 			~xarm();
-
-			double readJointPosition(std::string jointName);
-			void  setJointPosition(std::string jointName, double position); 
+			hid_device *handle;
+			std::vector<double> readJointsPosition();
+			void  setJointPosition(int joint_id, int position); 
 	};
 }
 
