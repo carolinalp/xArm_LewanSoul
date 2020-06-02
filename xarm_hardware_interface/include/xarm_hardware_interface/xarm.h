@@ -11,9 +11,14 @@ namespace xarm
 		public:
 			xarm();
 			~xarm();
-			hid_device *handle;
+			
 			std::vector<double> readJointsPosition();
-			void  setJointPosition(int joint_id, int position); 
+			void  setJointPosition(int joint_id, int position, int time); 
+
+		private:
+			hid_device *handle;
+			struct hid_device_info *devs, *cur_dev; 
+			void printDeviceInformation();
 	};
 }
 

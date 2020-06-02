@@ -18,7 +18,8 @@ int main(int argc, char** argv)
     
     std::vector<double> joint_positions;
     joint_positions = xarmrobot.readJointsPosition();
-    xarmrobot.setJointPosition(2, 400); 
-
+    xarmrobot.setJointPosition(1, 400,1000); 
+    usleep(2*1000000);
+    xarmrobot.setJointPosition(1, 600, 1000);
 }
 
