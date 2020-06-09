@@ -4,9 +4,30 @@ xarm:
       type: joint_state_controller/JointStateController
       publish_rate: 50
     position:
+      
+      xarm_2_joint:
+        type: position_controllers/JointPositionController
+        joint: xarm_2_joint
+        pid: {p: 10.0, i: 0.0, d: 1.0}
+
+      xarm_3_joint:
+        type: position_controllers/JointPositionController
+        joint: xarm_3_joint
+        pid: {p: 10.0, i: 0.0, d: 1.0}
+
+      xarm_4_joint:
+        type: position_controllers/JointPositionController
+        joint: xarm_4_joint
+        pid: {p: 10.0, i: 0.0, d: 1.0}
+      
+      xarm_5_joint:
+        type: position_controllers/JointPositionController
+        joint: xarm_5_joint
+        pid: {p: 10.0, i: 0.0, d: 1.0}
+
       xarm_6_joint:
         type: position_controllers/JointPositionController
         joint: xarm_6_joint
-        pid: {p: 10.0, i: 0.0, d: 1.0}
+        pid: {p: 10.0, i: 0.0, d: 1.0}   
       
-        
+      

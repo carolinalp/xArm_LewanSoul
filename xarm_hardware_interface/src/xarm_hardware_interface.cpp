@@ -79,7 +79,7 @@ namespace xarm_hardware_interface
 
     void xarmHardwareInterface::write(ros::Duration elapsed_time) {
         positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
-        for (int i = 0; i < num_joints_; i++) {
+        for (int i = 1; i <= num_joints_; i++) {
             xarm.setJointPosition(i, joint_position_command_[i], 1000);
         }
     }

@@ -8,5 +8,9 @@
             /xarm/controller/state
             /xarm/controller/position/xarm_6_joint
             /xarm/controller/position/xarm_5_joint
+            /xarm/controller/position/xarm_4_joint
+            /xarm/controller/position/xarm_3_joint
+            /xarm/controller/position/xarm_2_joint
+            /xarm/controller/position/xarm_1_joint
         "/>
 </launch>

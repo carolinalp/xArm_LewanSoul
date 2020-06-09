@@ -5,6 +5,7 @@
 #include <stdlib.h>
 
 #define MAX_STR 255
+#define PI 3.14159265359
 #include <string>
 using std::string;
 
@@ -45,7 +46,21 @@ namespace xarm
 		}
 		ROS_INFO("Device opened \n");
 		hid_free_enumeration(devs);
-		
+
+		// First column values for -pi/2 and 2nd column pi/2
+		matrix_unit_rad[0][0] = 100;  //Gripper opened
+		matrix_unit_rad[0][1] = 800; //Gripper closed
+		matrix_unit_rad[1][0] = 200; 	/*  Joint 2 */
+		matrix_unit_rad[1][1] = 980;  
+   		matrix_unit_rad[2][0] = 140;	/*  Joint 3*/
+		matrix_unit_rad[2][1] = 880;   
+   		matrix_unit_rad[3][0] = 130;	/*  Joint 4 */
+		matrix_unit_rad[3][1] = 870;   
+		matrix_unit_rad[4][0] = 140;	/*  Joint 5 */
+		matrix_unit_rad[4][1] = 880;    
+		matrix_unit_rad[5][0] = 90; 	/*  Joint 6 */
+		matrix_unit_rad[5][1] = 845;    
+				
 	}
 
 	xarm::~xarm()
@@ -74,6 +89,23 @@ namespace xarm
 		}
 	}
 
+	int xarm::convertRadToUnit(int joint_id, double rad)
+	{
+		int unit;
+		double m= (matrix_unit_rad[joint_id-1][1]-matrix_unit_rad[joint_id-1][0])/(PI);
+		double b = matrix_unit_rad[joint_id-1][1] - (m*PI/2);
+		unit = (m*rad) + b;
+		return unit;
+	}
+
+	double xarm::convertUnitToRad(int joint_id, int unit)
+	{
+		double rad;
+		double m= (PI)/(matrix_unit_rad[joint_id-1][1]-matrix_unit_rad[joint_id-1][0]);
+		double b = (PI/2) - (m*matrix_unit_rad[joint_id-1][1]);
+		rad = (m*unit) + b;
+		return rad;
+	}
 	std::vector<double> xarm::readJointsPosition()
 	{
 		int res;
@@ -111,34 +143,30 @@ namespace xarm
 			
 		}
 
-		int id, p_lsb, p_msb, pos;
+		int id, p_lsb, p_msb, pos, unit;
 		for (int i=0; i< 6; i++){
 			id = buf[5+3*i];
 			p_lsb= buf[5+3*i+1];
 			p_msb= buf[5+3*i+2];
-			joint_positions[i] = (p_msb << 8) + p_lsb;
+			unit= (p_msb << 8) + p_lsb;
+			joint_positions[i] = convertUnitToRad(id, unit);
 			printf("servo %d in joint_position %f \n", id, joint_positions[i]);
 		}
 
 		return joint_positions;
 	}
 	
-	void  xarm::setJointPosition(int joint_id, int position, int time=1000)
-	{
-		/*
-        CMD_SERVO_MOVE
-        0x55 0x55 len 0x03 [time_lsb time_msb, id, pos_lsb pos_msb]
-        Servo position is in range [0, 1000]
-        */
-	    
+	void  xarm::setJointPosition(int joint_id, double position_rad, int time=1000)
+	{	    
 		unsigned char buf[65];
 		unsigned char t_lsb,t_msb, p_lsb, p_msb;
 		int res;
+		int position_unit = int(convertRadToUnit(joint_id, position_rad));
 		
         t_lsb= time & 0xFF;
 		t_msb = time >> 8;
-		p_lsb = position & 0xFF;
-		p_msb = position >> 8;
+		p_lsb = position_unit & 0xFF;
+		p_msb = position_unit >> 8;
 
 		buf[0] = 0x55;
 		buf[1] = 0x55;
@@ -147,7 +175,7 @@ namespace xarm
 		buf[4] = 1;
 		buf[5] = t_lsb;
 		buf[6] = t_msb;
-		buf[7] = joint_id+1;
+		buf[7] = joint_id;
 		buf[8] = p_lsb;
 		buf[9] = p_msb;
 		
