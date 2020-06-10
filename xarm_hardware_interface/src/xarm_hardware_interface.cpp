@@ -6,6 +6,8 @@
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <xarm_hardware_interface/xarm.h> 
 
+
+
 using namespace hardware_interface;
 using joint_limits_interface::JointLimits;
 using joint_limits_interface::SoftJointLimits;
@@ -74,13 +76,13 @@ namespace xarm_hardware_interface
     }
 
     void xarmHardwareInterface::read() {
-        joint_position_ = xarm.readJointsPosition();    
+        joint_position_ = xarm.readJointsPosition(joint_names_);    
     }
 
     void xarmHardwareInterface::write(ros::Duration elapsed_time) {
         positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
-        for (int i = 1; i <= num_joints_; i++) {
-            xarm.setJointPosition(i, joint_position_command_[i], 1000);
+        for (int i = 0; i < num_joints_; i++) {
+            xarm.setJointPosition(joint_names_[i], joint_position_command_[i], 1000);
         }
     }
 }
