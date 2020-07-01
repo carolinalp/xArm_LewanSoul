@@ -172,7 +172,7 @@ namespace xarm
 			p_msb= buf[2+3*joint_id+2];
 			unit= (p_msb << 8) + p_lsb;
 			joint_positions[i] = convertUnitToRad(joint_names[i], unit);
-			printf("servo %d in joint_position %f \n", id, joint_positions[i]);
+			// printf("servo %d in joint_position %f \n", id, joint_positions[i]);
 		}
 
 		return joint_positions;

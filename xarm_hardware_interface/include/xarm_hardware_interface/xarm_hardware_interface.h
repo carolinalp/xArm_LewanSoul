@@ -37,7 +37,7 @@ namespace xarm_hardware_interface
             void write(ros::Duration elapsed_time);
             
         protected:
-            xarm::xarm xarm; // OJO not yet created
+            xarm::xarm xarm; 
             ros::NodeHandle nh_;
             ros::Timer non_realtime_loop_;
             ros::Duration control_period_;
