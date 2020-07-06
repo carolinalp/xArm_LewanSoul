@@ -6,8 +6,6 @@
 #include <joint_limits_interface/joint_limits_rosparam.h>
 #include <xarm_hardware_interface/xarm.h> 
 
-
-
 using namespace hardware_interface;
 using joint_limits_interface::JointLimits;
 using joint_limits_interface::SoftJointLimits;
@@ -50,37 +48,31 @@ namespace xarm_hardware_interface
 
             // Create position joint interface
             JointHandle jointPositionHandle(jointStateHandle, &joint_position_command_[i]);
-            // JointLimits limits;
-            // SoftJointLimits softLimits;
-            // getJointLimits(joint_names_[i], nh_, limits);
-            // PositionJointSoftLimitsHandle jointLimitsHandle(jointPositionHandle, limits, softLimits);
-            // positionJointSoftLimitsInterface.registerHandle(jointLimitsHandle);
-             position_joint_interface_.registerHandle(jointPositionHandle);
-
-            // Create effort joint interface
-            // JointHandle jointEffortHandle(joint_state_interface_.getHandle(joint_names_[i]), &joint_effort_command_[i]);
-            // effort_joint_interface_.registerHandle(jointEffortHandle);
+            JointLimits limits;
+            SoftJointLimits softLimits;
+            getJointLimits(joint_names_[i], nh_, limits);
+            PositionJointSoftLimitsHandle jointLimitsHandle(jointPositionHandle, limits, softLimits);
+            positionJointSoftLimitsInterface.registerHandle(jointLimitsHandle);
+            position_joint_interface_.registerHandle(jointPositionHandle);
         }
+
 
         registerInterface(&joint_state_interface_);
         registerInterface(&position_joint_interface_);
-        // registerInterface(&effort_joint_interface_);
-        // registerInterface(&positionJointSoftLimitsInterface);
+        registerInterface(&positionJointSoftLimitsInterface);
     }
 
     void xarmHardwareInterface::update(const ros::TimerEvent& e) {
         elapsed_time_ = ros::Duration(e.current_real - e.last_real);
         read();        
-        for (int i = 0; i < num_joints_; i++) {
-            printf("servo %d in joint_position %f \n",i, joint_position_[i]);
-        } 
+        // for (int i = 0; i < num_joints_; i++) {
+        //     printf("servo %d in joint_position %f \n",i, joint_position_[i]);
+        // } 
         controller_manager_->update(ros::Time::now(), elapsed_time_);
         write(elapsed_time_);
-        printf ("loop\n");
     }
 
     void xarmHardwareInterface::read() {
-        
         std::vector<double> position_temp;
         position_temp = xarm.readJointsPosition(joint_names_);
         for (int i = 0; i < num_joints_; i++) {
@@ -91,10 +83,13 @@ namespace xarm_hardware_interface
     }
 
     void xarmHardwareInterface::write(ros::Duration elapsed_time) {
-        // positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
-        for (int i = 0; i < num_joints_; i++) {
-            xarm.setJointPosition(joint_names_[i], joint_position_command_[i], 2000);
-            //printf ("joint position command %f\n", joint_position_command_[i]);
+        //positionJointSoftLimitsInterface.enforceLimits(elapsed_time);// not working properly 
+        int int_elapsed_time = int(elapsed_time.toSec()*1000);
+        if (int_elapsed_time > 0){
+            for (int i = 0; i < num_joints_; i++) {
+                xarm.setJointPosition(joint_names_[i], joint_position_command_[i], int_elapsed_time);
+                //printf ("joint position command %f\n", joint_position_command_[i]);
+            }
         }
     }
 }

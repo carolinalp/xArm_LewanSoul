@@ -80,7 +80,6 @@ namespace xarm
 		matrix_unit_rad[4][1] = 880;    
 		matrix_unit_rad[5][0] = 90; 	/*  Joint 6 */
 		matrix_unit_rad[5][1] = 845;    
-				
 	}
 
 	xarm::~xarm()
@@ -89,7 +88,6 @@ namespace xarm
 
 		/* Free static HIDAPI objects. */
 		hid_exit();
-		
 	}
 
 	void xarm::printDeviceInformation()
@@ -131,7 +129,6 @@ namespace xarm
 		int res;
 		std::vector<double> joint_positions;
 		unsigned char buf[65];
-
 
 		joint_positions.resize(joint_names.size());
 		buf[0] = 0x55;
