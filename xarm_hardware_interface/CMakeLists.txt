@@ -121,7 +121,6 @@ catkin_package(
     pluginlib
     transmission_interface
     joint_limits_interface
-    
 )
 
 ###########
@@ -180,11 +179,6 @@ target_link_libraries(xarm_hardware_interface_node
 # target_link_libraries(${PROJECT_NAME}_node
 #   ${catkin_LIBRARIES}
 # )
-
-
-
-
-
 
 add_library(mitsubishi_interface src/mitsubishi_code.cpp)
 add_dependencies(mitsubishi_interface xarm )
