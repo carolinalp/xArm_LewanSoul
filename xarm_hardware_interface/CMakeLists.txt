@@ -121,7 +121,7 @@ catkin_package(
     pluginlib
     transmission_interface
     joint_limits_interface
-
+    
 )
 
 ###########
@@ -164,9 +164,10 @@ add_library(xarm
 target_link_libraries(xarm ${catkin_LIBRARIES})
 
 add_library(xarm_hardware_interface src/xarm_hardware_interface.cpp)
-add_dependencies(xarm_hardware_interface xarm)
+add_dependencies(xarm_hardware_interface xarm )
 target_link_libraries(xarm_hardware_interface
 	xarm
+  hidapi-hidraw
 	${catkin_LIBRARIES})
 
 add_executable(xarm_hardware_interface_node src/xarm_hardware_interface_node.cpp)
@@ -180,6 +181,28 @@ target_link_libraries(xarm_hardware_interface_node
 #   ${catkin_LIBRARIES}
 # )
 
+
+
+
+
+
+add_library(mitsubishi_interface src/mitsubishi_code.cpp)
+add_dependencies(mitsubishi_interface xarm )
+target_link_libraries(mitsubishi_interface
+  xarm
+  hidapi-hidraw
+	${catkin_LIBRARIES})
+
+add_executable(mitsubishi_robot_code src/mitsubishi_robot_code.cpp)
+add_dependencies(mitsubishi_robot_code mitsubishi_interface)
+
+target_link_libraries(mitsubishi_robot_code
+	mitsubishi_interface
+	${catkin_LIBRARIES})
+## Specify libraries to link a library or executable target against
+# target_link_libraries(${PROJECT_NAME}_node
+#   ${catkin_LIBRARIES}
+# )
 
 #############
 ## Install ##

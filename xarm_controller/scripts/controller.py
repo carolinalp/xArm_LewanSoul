@@ -12,6 +12,8 @@ Notes:
 - position readouts are sadly pretty slow, they can take up to 450ms
 """
 
+
+
 import time
 import easyhid
 import numpy as np
@@ -260,12 +262,12 @@ def demo_nuestro():
     # print arm.read_pos()
     # # El minimo va opuesto a la caja
 
-    arm.move_to(id=6, pos=0, time=1000)
-    time.sleep(2)
+    #arm.move_to(id=6, pos=0, time=1000)
+    #time.sleep(2)
     print arm.read_pos()
 
-    arm.move_to(id=6, pos=1000, time=1000)
-    time.sleep(2)
-    print arm.read_pos()
+    #arm.move_to(id=6, pos=1000, time=1000)
+    #time.sleep(2)
+    #print arm.read_pos()
 
 demo_nuestro()

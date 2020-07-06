@@ -54,35 +54,42 @@ namespace xarm_hardware_interface
             PositionJointSoftLimitsHandle jointLimitsHandle(jointPositionHandle, limits, softLimits);
             positionJointSoftLimitsInterface.registerHandle(jointLimitsHandle);
             position_joint_interface_.registerHandle(jointPositionHandle);
-
-            // Create effort joint interface
-            JointHandle jointEffortHandle(jointStateHandle, &joint_effort_command_[i]);
-            effort_joint_interface_.registerHandle(jointEffortHandle);
         }
+
 
         registerInterface(&joint_state_interface_);
         registerInterface(&position_joint_interface_);
-        registerInterface(&effort_joint_interface_);
         registerInterface(&positionJointSoftLimitsInterface);
     }
 
     void xarmHardwareInterface::update(const ros::TimerEvent& e) {
         elapsed_time_ = ros::Duration(e.current_real - e.last_real);
-        read();
+        read();        
+        // for (int i = 0; i < num_joints_; i++) {
+        //     printf("servo %d in joint_position %f \n",i, joint_position_[i]);
+        // } 
         controller_manager_->update(ros::Time::now(), elapsed_time_);
         write(elapsed_time_);
     }
 
     void xarmHardwareInterface::read() {
+        std::vector<double> position_temp;
+        position_temp = xarm.readJointsPosition(joint_names_);
         for (int i = 0; i < num_joints_; i++) {
-            joint_position_[i] = xarm.readJointPosition(joint_names_[i]);
+            //printf ("joint position %d : %f\n", i, position_temp[i]);
+            joint_position_[i]=position_temp[i];
         }
+               
     }
 
     void xarmHardwareInterface::write(ros::Duration elapsed_time) {
-        positionJointSoftLimitsInterface.enforceLimits(elapsed_time);
-        for (int i = 0; i < num_joints_; i++) {
-            xarm.setJointPosition(joint_names_[i], joint_position_command_[i]);
+        //positionJointSoftLimitsInterface.enforceLimits(elapsed_time);// not working properly 
+        int int_elapsed_time = int(elapsed_time.toSec()*1000);
+        if (int_elapsed_time > 0){
+            for (int i = 0; i < num_joints_; i++) {
+                xarm.setJointPosition(joint_names_[i], joint_position_command_[i], int_elapsed_time);
+                //printf ("joint position command %f\n", joint_position_command_[i]);
+            }
         }
     }
 }
