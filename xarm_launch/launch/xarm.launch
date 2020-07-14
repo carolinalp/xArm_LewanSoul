@@ -1,13 +1,37 @@
 <launch>
-    <arg name="robot_description" default="'$(find xarm_description)/urdf/xarm.urdf'"/>
-    <param name="robot_description" command="xacro $(arg robot_description)"/>
+    <!-- Set initial_z of the robot to enable to set it on a table -->
+    <!--arg name="initial_z" default="0.1"/>
+    <arg name="robot_description" default="'$(find xarm_description)/urdf/xarm_world.urdf.xacro'"/>
+    <param name="robot_description" command="xacro $(arg robot_description) initial_z:=$(arg initial_z)"/-->
     
     <!-- Robot state publisher -->
     <node pkg="robot_state_publisher" type="robot_state_publisher" name="robot_state_publisher"/>
-    <node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/>
+    <!--node pkg="joint_state_publisher" type="joint_state_publisher" name="joint_state_publisher"/-->
 
      <!-- RVIZ -->
-    <node pkg="rviz" type="rviz" name="rviz" args="-d $(find xarm_launch)/xarm.rviz"/>
+    <!--node pkg="rviz" type="rviz" name="rviz" args="-d $(find xarm_launch)/xarm.rviz"/-->
+    
+    <!--include file="$(find xarm_hardware_interface)/launch/xarm_position_controller.launch"/-->
+    <!--rosparam file="$(find xarm_launch)/config/xarm_trajectory_controller.yaml" command="load"/>
+    <node name="trajectory_controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
+        args="xarm_trajectory_controller"/-->
+    
+    <!-- Load the URDF, SRDF and other .yaml configuration files on the param server -->
+    <include file="$(find xarm_moveit_config)/launch/planning_context.launch">
+        <arg name="load_robot_description" value="false"/>
+    </include>
+
+    <!-- Run the main MoveIt! executable without trajectory execution (we do not have controllers configured by default) -->
+    <include file="$(find xarm_moveit_config)/launch/move_group.launch">
+        <arg name="allow_trajectory_execution" value="true"/>
+        <arg name="fake_execution" value="false"/>
+        <arg name="info" value="true"/>
+    </include>
+
+    <!-- Run Rviz and load the default config to see the state of the move_group node -->
+    <include file="$(find xarm_moveit_config)/launch/moveit_rviz.launch">
+        <arg name="config" value="true"/>
+    </include>
 
 </launch>
 

@@ -60,8 +60,8 @@ namespace xarm
 		matrix_unit_transform["xarm_2_joint"][0][1]=980;
 		matrix_unit_transform["xarm_3_joint"][0][0]=140;
 		matrix_unit_transform["xarm_3_joint"][0][1]=880;
-		matrix_unit_transform["xarm_4_joint"][0][0]=130;
-		matrix_unit_transform["xarm_4_joint"][0][1]=870;
+		matrix_unit_transform["xarm_4_joint"][0][0]=870;
+		matrix_unit_transform["xarm_4_joint"][0][1]=130;
 		matrix_unit_transform["xarm_5_joint"][0][0]=140;
 		matrix_unit_transform["xarm_5_joint"][0][1]=880;
 		matrix_unit_transform["xarm_6_joint"][0][0]=90;
