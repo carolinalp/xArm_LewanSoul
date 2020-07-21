@@ -13,9 +13,7 @@
     <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false" output="screen" ns="/"
         args="
             /xarm/controller/state
-            /xarm/controller/position/xarm_6_joint
-            /xarm/controller/position/xarm_5_joint
-            /xarm/controller/position/xarm_4_joint
-            /xarm/controller/position/xarm_3_joint
-            /xarm/controller/position/xarm_2_joint"/>
+            xarm_controller
+      
+        "/> 
 </launch>
