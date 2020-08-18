@@ -18,6 +18,7 @@ namespace xarm
 		if (hid_init())
 			return;
 		int found=0;
+		printDeviceInformation();
 		devs = hid_enumerate(0x0, 0x0);
 		cur_dev = devs;	
 		while (cur_dev) {
