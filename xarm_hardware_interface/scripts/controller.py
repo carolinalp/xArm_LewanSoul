@@ -182,92 +182,34 @@ class SafeXArm:
         for i in range(6):
             self.arm.move_to(id=i+1, pos=target[i], time=50)
 
-# def demo():
-#     arm = SafeXArm()
-#     print "Resting"
-#     arm.rest()
-#     # To the right
-#     #arm.move_all([-1, 0, 0, 0, 0, 0])
-#     #time.sleep(2)
 
-#     # # To the left
-#     # arm.move_all([1, 0, 0, 0, 0, 0])
-#     # time.sleep(2)
-
-#     # # Default position
-#     # arm.move_all([0, 0, 0, 0, 0, 0])
-#     # time.sleep(2)
-
-#     # # Open gripper
-#     # arm.move_all([0, 0, 0, 0, 0, -1])
-#     # time.sleep(2)
-
-#     # # Close gripper
-#     print "Closing gripper"
-#     arm.move_all([0, 0, 0, 0, 0, 1])
-#     time.sleep(2)
-
-#     arm.move_to(id=0, pos=0.5, time=50)
-
-#     # Put the arm back in a resting position
-#     arm.rest()
-
-# demo()
-
-def demo_nuestro():
+def demo():
     arm = XArm()
     print arm.read_pos()
 
-    # Close gripper
-    # arm.move_to(id=1, pos=685, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-
     # Open gripper
-    # arm.move_to(id=1, pos=115, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
+    arm.move_to(id=1, pos=115, time=1000)
+    time.sleep(2)
 
-    # arm.move_to(id=2, pos=1000, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
+    # Close gripper
+    arm.move_to(id=1, pos=685, time=1000)
+    time.sleep(2)
 
-    # arm.move_to(id=2, pos=0, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-    # When going to 0 to 1000 rotates conter clock wise
+    # Move Joint 2 
+    arm.move_to(id=2, pos=1000, time=1000)
+    time.sleep(2)
+    
+    # Move Joint 2 
+    arm.move_to(id=2, pos=590, time=1000)
+    time.sleep(2)
 
-    # arm.move_to(id=3, pos=685, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
+    # Move Joint 3 
+    arm.move_to(id=3, pos=500, time=1000)
+    time.sleep(2)
+    
+    # Move Joint 3 
+    arm.move_to(id=3, pos=150, time=1000)
+    time.sleep(2)
 
-    # arm.move_to(id=3, pos=5, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
 
-    # arm.move_to(id=4, pos=1000, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-
-    # arm.move_to(id=4, pos=0, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-
-    # arm.move_to(id=5, pos=100, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-
-    # arm.move_to(id=5, pos=900, time=1000)
-    # time.sleep(2)
-    # print arm.read_pos()
-    # # El minimo va opuesto a la caja
-
-    #arm.move_to(id=6, pos=0, time=1000)
-    #time.sleep(2)
-    print arm.read_pos()
-
-    #arm.move_to(id=6, pos=1000, time=1000)
-    #time.sleep(2)
-    #print arm.read_pos()
-
-demo_nuestro()
+demo()
