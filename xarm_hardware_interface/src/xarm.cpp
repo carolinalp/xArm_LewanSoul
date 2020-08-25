@@ -18,6 +18,7 @@ namespace xarm
 		if (hid_init())
 			return;
 		int found=0;
+		printDeviceInformation();
 		devs = hid_enumerate(0x0, 0x0);
 		cur_dev = devs;	
 		while (cur_dev) {
@@ -68,8 +69,8 @@ namespace xarm
 		matrix_unit_transform["xarm_6_joint"][0][1]=845;
 
 		// First column values for -pi/2 and 2nd column pi/2
-		matrix_unit_rad[0][0] = 100;  //Gripper opened
-		matrix_unit_rad[0][1] = 800; //Gripper closed
+		matrix_unit_rad[0][0] = 100;    //Gripper opened
+		matrix_unit_rad[0][1] = 800;    //Gripper closed
 		matrix_unit_rad[1][0] = 200; 	/*  Joint 2 */
 		matrix_unit_rad[1][1] = 980;  
    		matrix_unit_rad[2][0] = 140;	/*  Joint 3*/
