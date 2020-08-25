@@ -6,7 +6,8 @@ Modified by: Carolina Leon Pinzon
 
 sudo apt-get install libhidapi-hidraw0 libhidapi-libusb0
 pip3 install --user hid
-Notes:
+
+Notes from the original code:
 - servos_off will power off the servos
 - sending a movement command wakes up unpowered servos
 - position readouts are sadly pretty slow, they can take up to 450ms
